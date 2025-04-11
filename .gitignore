@@ -1,0 +1,10 @@
+# Root
+.env
+
+# Node.js
+server/node_modules
+server/.env
+
+# React
+client/node_modules
+client/dist
