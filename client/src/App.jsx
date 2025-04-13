@@ -80,11 +80,12 @@ const App = () => {
       />
       <div className="flex flex-col h-screen w-[70vw]">
         <h1 className="text-[14rem] text-white uppercase">Gratitude Chain</h1>
-          <Input 
-            newText={newText} 
-            setNewText={setNewText} 
-            addChain={addChain} 
-          />
+        <Input 
+          newText={newText} 
+          setNewText={setNewText} 
+          addChain={addChain}
+        />
+        <footer className="text-white text-xs font-medium m-4">Made by <a href="https://github.com/samanthacabrera" target="_blank">Sam Cabrera</a></footer>
       </div>
       <PaperChain
         chains={chains}
