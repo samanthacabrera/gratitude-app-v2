@@ -2,19 +2,20 @@ import React, { useRef, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 
-function Ring({ color, position, rotationAngle, onClick, isSelected }) {
+function Ring({ color, position, rotation, onClick, isSelected }) {
   return (
     <mesh
       position={position}
       onClick={onClick}
       scale={isSelected ? 1.7 : 1.5}
-      rotation={[0, 0, rotationAngle]}
+      rotation={rotation}
     >
       <torusGeometry args={[0.8, 0.05, 16, 100]} />
       <meshStandardMaterial color={color} roughness={0.6} metalness={0.1} />
     </mesh>
   );
 }
+
 
 const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
   const containerRef = useRef(null);
@@ -68,14 +69,16 @@ const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
             const centerOffset = ((ringsToRender.length - 1) * spacing) / 2;
             const position = [index * spacing - centerOffset, 0, 0];
             
-            const rotationAngle = index % 2 === 0 ? 0 : Math.PI / 2;
+            const rotation = index % 2 === 0
+              ? [0, 0, 0]
+              : [Math.PI / 2, 0, 0];
             
             return (
               <Ring
                 key={ring.id}
                 color={color}
                 position={position}
-                rotationAngle={rotationAngle}
+                rotation={rotation}
                 onClick={() => setSelectedIndex(index === selectedIndex ? null : index)}
                 isSelected={isSelected}
               />
