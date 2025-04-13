@@ -4,7 +4,8 @@ import PaperRing from './PaperRing';
 const PaperChain = () => {
   const [chains, setChains] = useState([]);
   const [newText, setNewText] = useState("");
-  const [selectedText, setSelectedText] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
 
   const colors = [
     '#f87171', // red-400
@@ -22,9 +23,10 @@ const PaperChain = () => {
     setNewText("");
   };
 
-  const handleRingClick = (text) => {
-    setSelectedText(text);
+  const handleRingClick = (index) => {
+    setSelectedIndex(index === selectedIndex ? null : index);
   };
+
 
   return (
     <div className="flex flex-col items-center p-6 relative">
@@ -43,32 +45,34 @@ const PaperChain = () => {
           Add Ring
         </button>
       </div>
+<div className="flex justify-center items-center">
+  {chains.map((ring, index) => {
+    const color = colors[index % colors.length];
+    const isSelected = index === selectedIndex;
+    return (
+      <div
+        key={index}
+        className={`-ml-12 first:ml-0 transition-transform duration-300 ${
+          isSelected ? 'scale-150 z-50' : 'z-[1]'
+        }`}
+        style={{ zIndex: isSelected ? 50 : chains.length - index }}
+      >
+        <PaperRing
+          color={color}
+          text={ring.text}
+          onClick={() => handleRingClick(index)}
+        />
+      </div>
+    );
+  })}
+</div>
 
-        <div className="flex justify-center items-center">
-        {chains.map((ring, index) => {
-            const color = colors[index % colors.length];
-            return (
-            <div
-                key={index}
-                className="-ml-12 first:ml-0 z-[1]"
-                style={{ zIndex: chains.length - index }} 
-            >
-                <PaperRing
-                color={color}
-                text={ring.text}
-                onClick={() => handleRingClick(ring.text)}
-                />
-            </div>
-            );
-        })}
-        </div>
+{selectedIndex !== null && (
+  <div className="mt-12 bg-white border text-center shadow-md px-6 py-4 rounded-lg text-lg text-gray-800 z-50">
+    {chains[selectedIndex].text}
+  </div>
+)}
 
-
-      {selectedText && (
-        <div className="mt-12 bg-white border text-center shadow-md px-6 py-4 rounded-lg text-lg text-gray-800 z-50">
-          {selectedText}
-        </div>
-      )}
     </div>
   );
 };
