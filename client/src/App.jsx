@@ -65,14 +65,14 @@ const App = () => {
   }, []);
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden">
+    <div className="relative h-screen w-screen overflow-x-scroll overflow-y-hidden">
       <canvas 
         ref={canvasRef} 
         className="absolute top-0 left-0 w-full h-full -z-10"
       />
       <div className="relative z-10 h-full flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold mb-6 text-white drop-shadow-lg">Gratitude Chain</h1>
-        <div className="bg-white bg-opacity-20 backdrop-blur-md p-8 rounded-lg shadow-xl">
+        <h1 className="text-[10rem] text-white">Gratitude Chain</h1>
+        <div className="p-8">
           <PaperChain />
         </div>
       </div>
