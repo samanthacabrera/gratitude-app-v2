@@ -1,128 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
 
-const PaperRing = ({ color, onClick, isSelected }) => {
+function Ring({ color, position, rotation, onClick, isSelected }) {
   return (
-    <div 
+    <mesh
+      position={position}
+      rotation={rotation}
       onClick={onClick}
-      className={`relative cursor-pointer group transition-all duration-500 ease-in-out
-                  flex items-center justify-center rounded-full
-                  w-32 h-32 ${isSelected ? 'shadow-xl' : 'shadow-md hover:shadow-lg'}
-                  transform ${isSelected ? 'scale-110' : 'hover:scale-105'}`}
-      style={{ 
-        background: `linear-gradient(135deg, ${color}88, ${color})`,
-        borderWidth: '3px',
-        borderStyle: 'solid',
-        borderColor: `${color}55`,
-      }}
+      scale={isSelected ? 1.3 : 1}
     >
-      <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
-           style={{ background: `radial-gradient(circle at 30% 30%, ${color}00, ${color}44)` }} />
-      
-      <div className="absolute inset-2 rounded-full bg-white flex items-center justify-center">
-      </div>
-    </div>
+      <torusGeometry args={[1, 0.05, 16, 100]} />
+      <meshStandardMaterial color={color} roughness={0.6} metalness={0.1} />
+    </mesh>
   );
-};
+}
 
-const PaperChain = () => {
-  const [chains, setChains] = useState([]);
-  const [newText, setNewText] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-
+const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
   const colors = [
-    '#FF6B6B', // coral
-    '#4ECDC4', // teal
-    '#FFD166', // yellow
-    '#06D6A0', // mint
-    '#118AB2', // blue
-    '#073B4C', // dark blue
-    '#F72585', // magenta
-    '#7209B7', // purple
-    '#3A0CA3', // indigo
+    'red', 'orange', 'yellow',
+    'green', 'blue', 'purple',
   ];
-  
-  const addChain = () => {
-    if (!newText.trim()) return;
-    
-    setIsAnimating(true);
-    setChains([...chains, { text: newText, id: Date.now() }]);
-    setNewText("");
-    
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
-  };
-
-  const handleRingClick = (index) => {
-    setSelectedIndex(index === selectedIndex ? null : index);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      addChain();
-    }
-  };
 
   return (
-    <div className="flex flex-col items-center p-4 sm:p-6 min-h-full relative text-white">
-      
-      <div className="my-4 mx-auto w-full max-w-sm ">
-        <div className="flex items-center transition-all duration-200 ">
-          <input
-            type="text"
-            value={newText}
-            onChange={(e) => setNewText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            placeholder="Add gratitude..."
-            className="w-full py-3 px-4 bg-transparent placeholder-white border-b outline-none"
-          />
-          
-          <button
-            onClick={addChain}
-            disabled={!newText.trim()}
-            aria-label="Add to chain"
-            className="mr-1 p-2 rounded-full transition-colors duration-200 ">
-            <ArrowRight size={20} />
-          </button>
-        </div>
-      </div>
-      
-      {/* Paper chain */}
-      <div className={`flex justify-center items-center transition-all duration-300 mb-24 ${isAnimating ? 'scale-105' : ''}`}>
-        {chains.length === 0 ? (
-          <></>
-        ) : (
-          chains.map((ring, index) => {
+    <div className="flex flex-col items-center">
+      <div className="w-screen overflow-x-scroll">
+        <Canvas camera={{ position: [0, 0, 20], fov: 60 }}>
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={0.8} />
+          <OrbitControls />
+
+          {chains.map((ring, index) => {
             const color = colors[index % colors.length];
             const isSelected = index === selectedIndex;
+            const position = [index * 1.5 - (chains.length * 0.75), 0, 0];
+
+            const rotation = [0, 0, index % 2 === 0 ? 0 : Math.PI / 2];
+
             return (
-              <div
+              <Ring
                 key={ring.id}
-                className={`-ml-8 first:ml-0 transition-all duration-500 ease-in-out ${
-                  isSelected ? 'z-50 translate-y-2' : 'hover:z-30'
-                }`}
-                style={{ zIndex: isSelected ? 50 : chains.length - index }}
-              >
-                <PaperRing
-                  color={color}
-                  text={ring.text}
-                  onClick={() => handleRingClick(index)}
-                  isSelected={isSelected}
-                />
-              </div>
+                color={color}
+                position={position}
+                rotation={rotation}
+                onClick={() => setSelectedIndex(index === selectedIndex ? null : index)}
+                isSelected={isSelected}
+              />
             );
-          })
-        )}
+          })}
+        </Canvas>
       </div>
+
       {selectedIndex !== null && (
-          <p className="mt-4 text-xl text-white">
-            {chains[selectedIndex].text}
-          </p>
+        <div className="absolute bottom-10 text-lg bg-white/80 px-4 py-2 rounded shadow">
+          {chains[selectedIndex].text}
+        </div>
       )}
     </div>
   );
