@@ -1,21 +1,21 @@
 import React, { useRef, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
 
-function Ring({ color, position, rotation, onClick, isSelected }) {
+function BentPaperRing({ color, position, rotation, onClick, isSelected }) {
   return (
     <mesh
       position={position}
-      onClick={onClick}
-      scale={isSelected ? 1.7 : 1.5}
       rotation={rotation}
+      scale={isSelected ? 1.7 : 1.5}
+      onClick={onClick}
     >
-      <torusGeometry args={[0.8, 0.05, 16, 100]} />
-      <meshStandardMaterial color={color} roughness={0.6} metalness={0.1} />
+      <ringGeometry args={[0.5, 0.8, 100]} /> {/* Inner radius, outer radius, segments */}
+      <meshStandardMaterial color={color} side={THREE.DoubleSide} />
     </mesh>
   );
 }
-
 
 const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
   const containerRef = useRef(null);
@@ -32,9 +32,9 @@ const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
     { text: 'Fifth Gratitude', id: 5 },
     { text: 'Sixth Gratitude', id: 6 },
   ];
-  
+
   const canvasWidth = Math.max(100, ringsToRender.length * 500);
-  
+
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.style.width = `${canvasWidth}px`;
@@ -43,38 +43,37 @@ const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div 
+      <div
         ref={containerRef}
         className="h-screen overflow-x-auto flex items-center justify-center"
         style={{ minWidth: '100%', width: `${canvasWidth}px` }}
       >
         <Canvas
-          camera={{ 
+          camera={{
             position: [0, 0, 5],
             fov: 75,
-            // Adjust camera view based on number of rings
-            zoom: Math.max(0.6, 1.5 - ringsToRender.length * 0.05)
+            zoom: Math.max(0.6, 1.5 - ringsToRender.length * 0.05),
           }}
           className="h-screen"
         >
           <ambientLight intensity={0.6} />
           <directionalLight position={[5, 5, 5]} intensity={0.8} />
           <OrbitControls enablePan={false} enableZoom={false} />
-          
+
           {ringsToRender.map((ring, index) => {
             const color = colors[index % colors.length];
             const isSelected = index === selectedIndex;
-            
-            const spacing = 1.4;  
+
+            const spacing = 1.4;
             const centerOffset = ((ringsToRender.length - 1) * spacing) / 2;
             const position = [index * spacing - centerOffset, 0, 0];
-            
+
             const rotation = index % 2 === 0
               ? [0, 0, 0]
-              : [Math.PI / 2, 0, 0];
-            
+              : [Math.PI / 3, 0, 0];
+
             return (
-              <Ring
+              <BentPaperRing
                 key={ring.id}
                 color={color}
                 position={position}
@@ -86,7 +85,7 @@ const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
           })}
         </Canvas>
       </div>
-      
+
       {selectedIndex !== null && ringsToRender[selectedIndex] && (
         <div className="absolute bottom-10 text-lg bg-white/80 px-4 py-2 rounded shadow">
           {ringsToRender[selectedIndex].text}
