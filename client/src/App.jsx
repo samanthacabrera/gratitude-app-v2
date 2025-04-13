@@ -9,7 +9,6 @@ const App = () => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
     
-    // Set canvas dimensions to match window
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -18,18 +17,16 @@ const App = () => {
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
     
-    // Animate function
     const render = () => {
       // Create gradient background
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, '#4158D0');
-      gradient.addColorStop(0.46, '#C850C0');
-      gradient.addColorStop(1, '#FFCC70');
+      gradient.addColorStop(0, '#CFF5E7');
+      gradient.addColorStop(0.5, '#DCC6E0');
+      gradient.addColorStop(1, '#CFF5E7');
       
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Time-based wave pattern
       const time = Date.now() * 0.001;
       
       // Draw waves
