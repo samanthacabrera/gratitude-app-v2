@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PaperChain from './PaperChain';
 import Input from './Input'; 
+import HowTo from './HowTo';
 
 const App = () => {
   const canvasRef = useRef(null);
@@ -79,19 +80,20 @@ const App = () => {
         className="absolute top-0 left-0 min-w-[300vw] w-full h-full -z-10"
       />
       <div className="flex flex-col h-screen w-[70vw]">
-        <h1 className="text-[13rem] text-white m-4">Gratitude Chain</h1>
+        <h1 className="text-[15rem] text-white mx-4 mb-4 leading-tight">Gratitude Chain</h1>
         <Input 
           newText={newText} 
           setNewText={setNewText} 
           addChain={addChain}
         />
-        <footer className="absolute bottom-4 left-4 text-white font-medium">Made by <a href="https://github.com/samanthacabrera" target="_blank">Sam Cabrera</a></footer>
+        <footer className="absolute bottom-4 left-8 text-2xl text-white hover:underline">Made by <a href="https://github.com/samanthacabrera" target="_blank">Sam Cabrera</a></footer>
       </div>
-      <PaperChain
+      <HowTo/>
+      {/* <PaperChain
         chains={chains}
         selectedIndex={selectedIndex}
         setSelectedIndex={setSelectedIndex}
-      />
+      /> */}
     </div>
   );
 };
