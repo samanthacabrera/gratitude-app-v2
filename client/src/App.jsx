@@ -29,9 +29,9 @@ const App = () => {
 
     const render = () => {
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, '#CFF5E7');
-      gradient.addColorStop(0.5, '#DCC6E0');
-      gradient.addColorStop(1, '#CFF5E7');
+      gradient.addColorStop(0, '#97C3C4');
+      gradient.addColorStop(0.5, '#FEEFDD');
+      gradient.addColorStop(1, '#50B2C0');
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -79,13 +79,13 @@ const App = () => {
         className="absolute top-0 left-0 min-w-[300vw] w-full h-full -z-10"
       />
       <div className="flex flex-col h-screen w-[70vw]">
-        <h1 className="text-[14rem] text-white">Gratitude Chain</h1>
+        <h1 className="text-[13rem] text-white m-4">Gratitude Chain</h1>
         <Input 
           newText={newText} 
           setNewText={setNewText} 
           addChain={addChain}
         />
-        <footer className="text-white text-xs font-medium m-4">Made by <a href="https://github.com/samanthacabrera" target="_blank">Sam Cabrera</a></footer>
+        <footer className="absolute bottom-4 left-4 text-white font-medium">Made by <a href="https://github.com/samanthacabrera" target="_blank">Sam Cabrera</a></footer>
       </div>
       <PaperChain
         chains={chains}

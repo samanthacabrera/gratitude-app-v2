@@ -12,7 +12,12 @@ function BentPaperRing({ color, position, rotation, onClick, isSelected }) {
       onClick={onClick}
     >
       <ringGeometry args={[0.5, 0.8, 100]} /> {/* Inner radius, outer radius, segments */}
-      <meshStandardMaterial color={color} side={THREE.DoubleSide} />
+      <meshStandardMaterial 
+        color={color} 
+        emissive={color} 
+        emissiveIntensity={0.4} 
+        side={THREE.DoubleSide} 
+      />
     </mesh>
   );
 }
@@ -20,8 +25,12 @@ function BentPaperRing({ color, position, rotation, onClick, isSelected }) {
 const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
   const containerRef = useRef(null);
   const colors = [
-    'red', 'orange', 'yellow',
-    'green', 'blue', 'purple',
+    '#FF6EC7', 
+    '#FF3F00',
+    '#05B2DC',
+    '#BAFF70',
+    '#FF7247',
+    '#FCFF5C',
   ];
 
   const ringsToRender = chains.length > 0 ? chains : [
@@ -87,7 +96,7 @@ const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
       </div>
 
       {selectedIndex !== null && ringsToRender[selectedIndex] && (
-        <div className="absolute bottom-10 text-lg bg-white/80 px-4 py-2 rounded shadow">
+        <div className="absolute bottom-10 text-2xl w-full text-center">
           {ringsToRender[selectedIndex].text}
         </div>
       )}
