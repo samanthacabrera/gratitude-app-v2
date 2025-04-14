@@ -79,7 +79,7 @@ const App = () => {
         className="absolute top-0 left-0 min-w-[300vw] w-full h-full -z-10"
       />
       <div className="flex flex-col h-screen w-[70vw]">
-        <h1 className="text-[14rem] text-white uppercase">Gratitude Chain</h1>
+        <h1 className="text-[14rem] text-white">Gratitude Chain</h1>
         <Input 
           newText={newText} 
           setNewText={setNewText} 

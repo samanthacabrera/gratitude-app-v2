@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,4 +7,5 @@ html,
 body {
   padding: 0;
   margin: 0;
+  font-family: "Gamja Flower", sans-serif;
 }
