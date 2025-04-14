@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PaperChain from './PaperChain';
 import Input from './Input'; 
-import HowTo from './HowTo';
+import About from './About';
+
 
 const App = () => {
   const canvasRef = useRef(null);
@@ -77,7 +78,7 @@ const App = () => {
     <div className="flex relative">
       <canvas
         ref={canvasRef}
-        className="absolute top-0 left-0 min-w-[300vw] w-full h-full -z-10"
+        className="absolute top-0 left-0 min-w-[400vw] w-full h-full -z-10"
       />
       <div className="flex flex-col h-screen w-[70vw]">
         <h1 className="text-[15rem] text-white mx-4 mb-4 leading-tight">Gratitude Chain</h1>
@@ -86,14 +87,17 @@ const App = () => {
           setNewText={setNewText} 
           addChain={addChain}
         />
-        <footer className="absolute bottom-4 left-8 text-2xl text-white hover:underline">Made by <a href="https://github.com/samanthacabrera" target="_blank">Sam Cabrera</a></footer>
       </div>
-      <HowTo/>
-      {/* <PaperChain
+      <About/>
+      <PaperChain
         chains={chains}
         selectedIndex={selectedIndex}
         setSelectedIndex={setSelectedIndex}
-      /> */}
+      />
+      <footer className="absolute bottom-4 left-8 text-2xl text-white hover:underline">Made by <a href="https://github.com/samanthacabrera" target="_blank">Sam Cabrera</a></footer>
+      <div className="fixed bottom-4 right-8 text-2xl text-white">
+        Total Rings: {chains.length} 
+      </div>
     </div>
   );
 };

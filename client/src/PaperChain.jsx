@@ -34,12 +34,6 @@ const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
   ];
 
   const ringsToRender = chains.length > 0 ? chains : [
-    { text: 'First Gratitude', id: 1 },
-    { text: 'Second Gratitude', id: 2 },
-    { text: 'Third Gratitude', id: 3 },
-    { text: 'Fourth Gratitude', id: 4 },
-    { text: 'Fifth Gratitude', id: 5 },
-    { text: 'Sixth Gratitude', id: 6 },
   ];
 
   const canvasWidth = Math.max(100, ringsToRender.length * 500);
@@ -78,7 +72,7 @@ const PaperChain = ({ chains, selectedIndex, setSelectedIndex }) => {
             const position = [index * spacing - centerOffset, 0, 0];
 
             const rotation = index % 2 === 0
-              ? [0, 0, 0]
+              ? [ 0,  0,  Math.PI / 2]
               : [Math.PI / 3, 0, 0];
 
             return (
